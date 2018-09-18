@@ -208,6 +208,20 @@ mlb_subset = readxl::read_excel(path = &quot;./data/mlb11.xlsx&quot;, range = &q
 <p>read in pulse data</p>
 <pre class="r"><code>pulse_data = haven::read_sas(&quot;./data/public_pulse_data.sas7bdat&quot;)</code></pre>
 </div>
+<div id="compare-with-base-r" class="section level2">
+<h2>Compare with base R</h2>
+<pre class="r"><code>pups_base = read.csv(&quot;./data/FAS_pups.csv&quot;)
+pups_readr = read_csv(&quot;./data/FAS_pups.csv&quot;)</code></pre>
+<pre><code>## Parsed with column specification:
+## cols(
+##   `Litter Number` = col_character(),
+##   Sex = col_integer(),
+##   `PD ears` = col_integer(),
+##   `PD eyes` = col_integer(),
+##   `PD pivot` = col_integer(),
+##   `PD walk` = col_integer()
+## )</code></pre>
+</div>
 
 
 
