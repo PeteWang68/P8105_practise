@@ -205,6 +205,8 @@ $(document).ready(function () {
 <pre class="r"><code>mlb_data = readxl::read_excel(path = &quot;./data/mlb11.xlsx&quot;)
 
 mlb_subset = readxl::read_excel(path = &quot;./data/mlb11.xlsx&quot;, range = &quot;A1:E17&quot;)</code></pre>
+<p>read in pulse data</p>
+<pre class="r"><code>pulse_data = haven::read_sas(&quot;./data/public_pulse_data.sas7bdat&quot;)</code></pre>
 </div>
 
 

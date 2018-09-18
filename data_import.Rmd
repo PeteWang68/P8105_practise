@@ -40,3 +40,10 @@ mlb_data = readxl::read_excel(path = "./data/mlb11.xlsx")
 mlb_subset = readxl::read_excel(path = "./data/mlb11.xlsx", range = "A1:E17")
 ```
 
+
+read in pulse data
+
+```{r}
+pulse_data = haven::read_sas("./data/public_pulse_data.sas7bdat")
+```
+
