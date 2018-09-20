@@ -88,4 +88,14 @@ mutate(litters_data,
 ```
 
 
+## Arrange
+
+Arrange the data...
+
+```{r}
+arrange(litters_data, gd0_weight)
+
+arrange(litters_data, desc(pups_born_alive), gd0_weight)
+```
+
 
