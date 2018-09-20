@@ -1,0 +1,56 @@
+---
+title: "Data_manipulation"
+author: "Zixu_Wang"
+date: "9/20/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+```
+
+## Import FAS csv files
+
+Import my first csv.
+
+```{r}
+litters_data = read_csv(file = "./data/FAS_litters.csv")
+litters_data = janitor::clean_names(litters_data)
+
+pups_data = read_csv(file = "./data/FAS_pups.csv")
+pups_data = janitor::clean_names(pups_data)
+```
+
+## select variables
+
+```{r}
+select(litters_data, litter_number, group, gd0_weight)
+```
+
+... by specifying s range
+```{r}
+select(litters_data, gd18_weight:pups_dead_birth)
+
+```
+... by saying what you want to remove:
+```{r}
+select(litters_data, -litter_number)
+```
+
+```{r}
+select(litters_data, group, litter_number, gest_day_0_weight = gd0_weight)
+rename(litters_data, gest_day_0_weight = gd0_weight)
+```
+
+... use select helpers
+
+```{r}
+select(litters_data, starts_with("gd"))
+select(litters_data, litter_number, starts_with("pup"))
+
+select(litters_data, litter_number, everything())
+```
+
+
