@@ -1,0 +1,107 @@
+---
+title: "Ggplot2_class2"
+author: "Zixu_Wang"
+date: "10/2/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(ggridges)
+```
+
+```{r data_import, cache = TRUE}
+library(rnoaa)
+
+weather_df = 
+  rnoaa::meteo_pull_monitors(c("USW00094728", "USC00519397", "USS0023B17S"),
+                      var = c("PRCP", "TMIN", "TMAX"), 
+                      date_min = "2017-01-01",
+                      date_max = "2017-12-31") %>%
+  mutate(
+    name = recode(id, USW00094728 = "CentralPark_NY", 
+                      USC00519397 = "Waikiki_HA",
+                      USS0023B17S = "Waterhole_WA"),
+    tmin = tmin / 10,
+    tmax = tmax / 10, 
+    month = lubridate::floor_date(date, unit = "month")) %>%
+  select(name, id, everything())
+weather_df
+```
+
+## Start grouping
+
+count first
+```{r}
+weather_df %>% 
+  group_by(name, month) %>% 
+  summarize(number = n())
+
+weather_df %>% 
+  group_by(name) %>% 
+  summarize(number = n())
+
+weather_df %>% 
+  group_by(month) %>% 
+  summarize(number = n())
+
+weather_df %>% 
+  count(name, month)
+```
+
+## Grouped summaries
+
+```{r}
+weather_df %>% 
+  group_by(name, month) %>% 
+  summarize(number = n(),
+            num_na = sum(is.na(tmax)),
+            mean_tmax = mean(tmax, na.rm = TRUE),
+            median_prcp = median(prcp, na.rm = TRUE),
+            sd_tmin = sd(tmin, na.rm = TRUE))
+```
+
+This is still a tibble
+```{r}
+weather_df %>% 
+  group_by(name, month) %>% 
+  summarize(number = n(),
+            num_na = sum(is.na(tmax)),
+            mean_tmax = mean(tmax, na.rm = TRUE),
+            median_prcp = median(prcp, na.rm = TRUE),
+            sd_tmin = sd(tmin, na.rm = TRUE)) %>% 
+  ggplot(aes(x = month, y = mean_tmax, color = name)) +
+  geom_point()
+```
+
+
+Tidy is not always best for humans
+
+```{r}
+weather_df %>%
+  group_by(name, month) %>%
+  summarize(mean_tmax = mean(tmax, na.rm = TRUE)) %>% 
+  spread(key = name, value = mean_tmax) %>% 
+  knitr::kable(digits = 3)
+```
+
+## Group mutate
+
+```{r}
+weather_df %>%
+  group_by(name, month) %>%
+  mutate(mean_tmax = mean(tmax, na.rm = TRUE))
+```
+
+More interesting example
+
+```{r}
+weather_df %>%
+  group_by(name) %>%
+  mutate(mean_tmax = mean(tmax, na.rm = TRUE),
+         centered_tmax = tmax - mean_tmax) %>% 
+  ggplot(aes(x = date, y = centered_tmax, color = name)) +
+  geom_point()
+```
+
