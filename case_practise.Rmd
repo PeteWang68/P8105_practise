@@ -1,0 +1,54 @@
+---
+title: "case practise"
+author: "Zixu_Wang"
+date: "10/9/2018"
+output: html_document
+---
+
+```{r}
+library(tidyverse)
+
+knitr::opts_chunk$set(
+  fig.width = 6,
+  fig.asp = .6,
+  out.width = "90%"
+)
+
+theme_set(theme_bw() + theme(legend.position = "bottom"))
+```
+
+load the data
+```{r}
+library(p8105.datasets)
+data(nyc_airbnb) 
+```
+
+View the data
+
+```{r, eval = FALSE}
+nyc_airbnb %>%  View
+```
+
+clean and rename something
+```{r}
+nyc_airbnb =
+  nyc_airbnb %>% 
+  mutate(starts = review_scores_location / 2) %>% 
+  rename(boro = neighbourhood_group)
+```
+
+```{r}
+nyc_airbnb %>% 
+  count(boro, neighbourhood)
+```
+
+## Some questions
+
+* Does rating vary by neighbourhood, room type, or both?
+* How is price related to other variables?
+* Where are rentals located?
+
+* What's the most expensive area? What about the least?
+* Which listings have the most unfilled days?
+* Which area has the highest density of listings?
+* What are some host characteristics? How many listings? What's associated with rating?
